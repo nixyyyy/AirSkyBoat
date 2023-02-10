@@ -18,16 +18,14 @@ mobskillObject.onMobSkillCheck = function(target, mob, skill)
 end
 
 mobskillObject.onMobWeaponSkill = function(target, mob, skill)
-    if mob:getFamily() == 271 then -- Jailer of Love, uses only animation.
-        skill:setMsg(xi.msg.NONE)
-        return 0
-    end
-
     local numhits = 1
-    local info = xi.mobskills.mobPhysicalMove(mob, target, skill, numhits, 1, 1, xi.mobskills.magicalTpBonus.NO_EFFECT, 1, 1.5, 2)
+    local accmod = 2
+    local dmgmod = 2.7
+    local info = xi.mobskills.mobPhysicalMove(mob, target, skill, numhits, accmod, dmgmod, xi.mobskills.magicalTpBonus.NO_EFFECT)
     local dmg = xi.mobskills.mobFinalAdjustments(info.dmg, mob, skill, target, xi.attackType.PHYSICAL, xi.damageType.SLASHING, info.hitslanded)
 
-    xi.mobskills.mobPhysicalStatusEffectMove(mob, target, skill, xi.effect.DEFENSE_DOWN, 83, 0, 30)
+    local typeEffect = xi.effect.DEFENSE_DOWN
+    xi.mobskills.mobPhysicalStatusEffectMove(mob, target, skill, typeEffect, 75, 0, 60)
 
     target:takeDamage(dmg, mob, xi.attackType.PHYSICAL, xi.damageType.SLASHING)
     return dmg

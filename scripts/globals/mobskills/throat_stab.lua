@@ -19,8 +19,17 @@ mobskillObject.onMobSkillCheck = function(target, mob, skill)
 end
 
 mobskillObject.onMobWeaponSkill = function(target, mob, skill)
-    -- Set player to 5% of max HP
-    local damage = math.max(0, target:getMaxHP() * 0.95 - (target:getMaxHP() - target:getHP()))
+    local currentHP = target:getHP()
+    -- remove all by 5%
+    local damage = 0
+
+    -- if have more hp then 30%, then reduce to 5%
+    if currentHP / target:getMaxHP() > 0.2 then
+        damage = currentHP * .95
+    else
+        -- else you die
+        damage = currentHP
+    end
 
     local dmg = xi.mobskills.mobFinalAdjustments(damage, mob, skill, target, xi.attackType.PHYSICAL, xi.damageType.PIERCING, xi.mobskills.shadowBehavior.IGNORE_SHADOWS)
 

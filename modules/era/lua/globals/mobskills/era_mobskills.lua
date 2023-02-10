@@ -296,6 +296,12 @@ m:addOverride("xi.globals.mobskills.aqua_blast.onMobWeaponSkill", function(targe
 end)
 
 -- Aqua Breath
+m:addOverride("xi.globals.mobskills.aqua_breath.onMobSkillCheck", function(target,mob,skill)
+    if target:isBehind(mob, 96) then
+        return 1
+    end
+    return 0
+end)
 m:addOverride("xi.globals.mobskills.aqua_breath.onMobWeaponSkill", function(target,mob,skill)
     local dmgmod = xi.mobskills.mobBreathMove(mob, target, 0.1, 1, xi.magic.ele.WATER, 500)
     local dmg    = xi.mobskills.mobFinalAdjustments(dmgmod, mob, skill, target, xi.attackType.BREATH, xi.damageType.WATER, xi.mobskills.shadowBehavior.IGNORE_SHADOWS)
