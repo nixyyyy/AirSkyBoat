@@ -1,17 +1,14 @@
 -----------------------------------
---  Mobskills Era Module
+--  AirSkyBoat Mobskills Module
 -----------------------------------
 require("modules/module_utils")
+require("scripts/globals/settings")
+require("scripts/globals/status")
+require("scripts/globals/magic")
+require("scripts/globals/mobskills")
 -----------------------------------
+
 local m = Module:new("era_mobskills")
-
--- local f = {}
-
--- f.mobPhysicalMove = function(mob, target, skill, numberofhits, accmod, dmgmod, tpeffect, mtp000, mtp150, mtp300, critperc, attmod)
---     print("test~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
--- end
-
--- m:addOverride("xi.mobskills", f)
 
 
 -- Abyss Blast
@@ -332,17 +329,17 @@ m:addOverride("xi.globals.mobskills.arm_block.onMobWeaponSkill", function(target
 end)
 
 -- Arrow Deluge
-m:addOverride("xi.globals.mobskills.arrow_deluge.onMobWeaponSkill", function(target,mob,skill)
-    local numhits = 1
-    local accmod = 1
-    local dmgmod = 1
-    local info = xi.mobskills.mobPhysicalMove(mob, target, skill, numhits, accmod, dmgmod, xi.mobskills.magicalTpBonus.NO_EFFECT)
-    local dmg = xi.mobskills.mobFinalAdjustments(info.dmg, mob, skill, target, xi.attackType.RANGED, xi.damageType.PIERCING, xi.mobskills.shadowBehavior.NUMSHADOWS_3)
+-- m:addOverride("xi.globals.mobskills.arrow_deluge.onMobWeaponSkill", function(target,mob,skill)
+--     local numhits = 1
+--     local accmod = 1
+--     local dmgmod = 1
+--     local info = xi.mobskills.mobPhysicalMove(mob, target, skill, numhits, accmod, dmgmod, xi.mobskills.magicalTpBonus.NO_EFFECT)
+--     local dmg = xi.mobskills.mobFinalAdjustments(info.dmg, mob, skill, target, xi.attackType.RANGED, xi.damageType.PIERCING, xi.mobskills.shadowBehavior.NUMSHADOWS_3)
 
-    target:takeDamage(dmg, mob, xi.attackType.RANGED, xi.damageType.PIERCING)
+--     target:takeDamage(dmg, mob, xi.attackType.RANGED, xi.damageType.PIERCING)
 
-    return dmg
-end)
+--     return dmg
+-- end)
 
 -- Artificial Gravity
 m:addOverride("xi.globals.mobskills.artificial_gravity.onMobWeaponSkill", function(target,mob,skill)
@@ -610,15 +607,15 @@ m:addOverride("xi.globals.mobskills.circle_of_flames.onMobWeaponSkill", function
 end)
 
 -- Crystal Weapon
-m:addOverride("xi.globals.mobskills.crystal_weapon.onMobWeaponSkill", function(target,mob,skill)
-    local day = math.random(0, 3)
-    local damageType = xi.damageType.FIRE + xi.magic.dayElement[day] - 1
-    local accmod = 1
-    local info = xi.mobskills.mobMagicalMove(mob, target, skill, mob:getMobWeaponDmg(xi.slot.MAIN), accmod, 1, xi.mobskills.magicalTpBonus.MAB_BONUS, 1, 0, 2, 3, 4)
-    local dmg = xi.mobskills.mobFinalAdjustments(info.dmg, mob, skill, target, xi.attackType.MAGICAL, damageType, xi.mobskills.shadowBehavior.IGNORE_SHADOWS)
-    target:takeDamage(dmg, mob, xi.attackType.MAGICAL, damageType)
-    return dmg
-end)
+-- m:addOverride("xi.globals.mobskills.crystal_weapon.onMobWeaponSkill", function(target,mob,skill)
+--     local day = math.random(0, 3)
+--     local damageType = xi.damageType.FIRE + xi.magic.dayElement[day] - 1
+--     local accmod = 1
+--     local info = xi.mobskills.mobMagicalMove(mob, target, skill, mob:getMobWeaponDmg(xi.slot.MAIN), accmod, 1, xi.mobskills.magicalTpBonus.MAB_BONUS, 1, 0, 2, 3, 4)
+--     local dmg = xi.mobskills.mobFinalAdjustments(info.dmg, mob, skill, target, xi.attackType.MAGICAL, damageType, xi.mobskills.shadowBehavior.IGNORE_SHADOWS)
+--     target:takeDamage(dmg, mob, xi.attackType.MAGICAL, damageType)
+--     return dmg
+-- end)
 
 -- Double Kick
 m:addOverride("xi.globals.mobskills.double_kick.onMobWeaponSkill", function(target,mob,skill)
@@ -913,11 +910,6 @@ m:addOverride("xi.globals.mobskills.wind_breath.onMobWeaponSkill", function(targ
     target:takeDamage(dmg, mob, xi.attackType.BREATH, xi.damageType.WIND)
     return dmg
 end)
-
-
-m:addOverride("xi.globals.mobskills..onMobWeaponSkill", function(target,mob,skill)
-end)
-
 
 
 return m

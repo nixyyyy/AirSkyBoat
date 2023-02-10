@@ -13,9 +13,6 @@ require("scripts/globals/mobskills")
 -----------------------------------
 local mobskillObject = {}
 
-local platoonScorpionPoolID  = 3157
-local wildRageDamageIncrease = 0.10
-
 mobskillObject.onMobSkillCheck = function(target, mob, skill)
     return 0
 end
@@ -23,27 +20,21 @@ end
 mobskillObject.onMobWeaponSkill = function(target, mob, skill)
     local numhits = 1
     local accmod = 1
-    local dmgmod = 2.1
 
-    local info = xi.mobskills.mobPhysicalMove(mob, target, skill, numhits, accmod, dmgmod, xi.mobskills.magicalTpBonus.NO_EFFECT)
-    if mob:getPool() == platoonScorpionPoolID then
-        -- should not have to verify because platoon scorps only in battlefield
-        local numScorpsDead = mob:getBattlefield():getLocalVar("[ODS]NumScorpsDead")
+    local info = xi.mobskills.mobPhysicalMove(mob, target, skill, numhits, accmod, 1, xi.mobskills.physicalTpBonus.DMG_VARIES, 2, 2.5, 3)
 
-        -- Increase the strength of Wild Rage as scorps in the BC die
-        -- https://ffxiclopedia.fandom.com/wiki/Operation_Desert_Swarm
-        info.dmg = info.dmg * (1 + wildRageDamageIncrease * numScorpsDead)
+    -- Platoon Scorpion
+    if mob:getPool() == 3157 then
+        local ragePower = mob:getLocalVar("wildRagePower")
+        info.dmg = info.dmg * (1 + 0.3 * ragePower)
     end
 
-    local dmg = xi.mobskills.mobFinalAdjustments(info.dmg, mob, skill, target, xi.attackType.PHYSICAL, xi.damageType.SLASHING, xi.mobskills.shadowBehavior.NUMSHADOWS_3)
-
-    -- king vinegrroon
+    -- King Vinegrroon
     if mob:getPool() == 2262 then
-        local typeEffect = xi.effect.POISON
-        local power = 25
-        xi.mobskills.mobPhysicalStatusEffectMove(mob, target, skill, typeEffect, power, 3, 60)
+        xi.mobskills.mobPhysicalStatusEffectMove(mob, target, skill, xi.effect.POISON, 25, 3, 60)
     end
 
+    local dmg = xi.mobskills.mobFinalAdjustments(info.dmg, mob, skill, target, xi.attackType.PHYSICAL, xi.damageType.SLASHING, xi.mobskills.shadowBehavior.WIPE_SHADOWS)
     target:takeDamage(dmg, mob, xi.attackType.PHYSICAL, xi.damageType.SLASHING)
     return dmg
 end
