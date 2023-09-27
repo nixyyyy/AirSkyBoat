@@ -2134,7 +2134,16 @@ void CCharEntity::OnRaise()
             // Player died within a battlefield, reward the battlefield level equivalent EXP
             if (StatusEffectContainer->HasStatusEffect(EFFECT_BATTLEFIELD))
             {
-                expLost = m_LevelRestriction >= 1 && m_LevelRestriction <= 67 ? (charutils::GetExpNEXTLevel(m_LevelRestriction) * 8) / 100 : 2400;
+                if (PBattlefield != nullptr && (PBattlefield->GetRuleMask() & RULES_LOSE_EXP) != RULES_LOSE_EXP)
+                {
+                    expLost = 0;
+                }
+                else
+                {
+                    expLost = m_LevelRestriction >= 1 && m_LevelRestriction <= 67
+                                  ? (charutils::GetExpNEXTLevel(m_LevelRestriction) * 8) / 100
+                                  : 2400;
+                }
             }
 
             // Exp is enough to level you and (you're not under a level restriction, or the level restriction is higher than your current main level).
