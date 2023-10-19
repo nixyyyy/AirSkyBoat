@@ -135,7 +135,7 @@ REPLACE INTO `merits` (`meritid`, `name`, `upgrade`, `value`, `jobs`, `upgradeid
     (2886, 'strafe_effect', 5, 5, 8192, 7, 44),
 
     -- SMN Group 1: Elemental MP Perpetuation Cost
-    (1288, 'summoning_magic_cast_time', 5, 1, 16384, 6, 19), -- Elemental MP Cost, in era
+    -- (1288, 'summoning_magic_cast_time', 5, 1, 16384, 6, 19), -- Elemental MP Cost, in era
     -- SMN Group 2
     (2944, 'meteor_strike', 5, 400, 16384, 7, 45),
     (2946, 'heavenly_strike', 5, 400, 16384, 7, 45),
